@@ -25,10 +25,7 @@ int main() {
     while (getline (cmdFile, command)) {
         Command cmd(command);
         if (cmd.mType =="DIMENSION")
-        {
             dimension  = cmd.x;
-            cout << dimension << endl;
-        }
         else
         {
             if (!cmd.validateCmd(dimension))
