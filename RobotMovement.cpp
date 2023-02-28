@@ -5,7 +5,6 @@
 
 using namespace std;
 
-int dimension; 
 
 int main() {
 
@@ -16,38 +15,32 @@ int main() {
         cout << "File is not valid." << endl;
         return 1;
     }
-    
-    string dimensionLine;
-    getline (cmdFile, dimensionLine);
-    Command dimensionLineMap(dimensionLine);
-    if (dimensionLineMap.mType =="DIMENSION")
-        dimension = dimensionLineMap.x;
-    else 
-    {
-        cout << "Dimension not found." << endl;
-        return 1;
-    }
+
     Robot *robot = new Robot();
     int oldX = robot->getX();
     int oldY = robot->getY();
-    
+    static int dimension;
     // Use a while loop to read the command file line by line
     string command;
     while (getline (cmdFile, command)) {
         Command cmd(command);
-        if (cmd.mType !="DIMENSION")
+        if (cmd.mType =="DIMENSION")
         {
-            string mType = cmd.mType;
+            dimension  = cmd.x;
+            cout << dimension << endl;
+        }
+        else
+        {
             if (!cmd.validateCmd(dimension))
             {
                 cout<< "Skipped." << endl;
                 continue;
             }
-            if (mType == "LINE_TO")
+            if (cmd.mType == "LINE_TO")
                 robot->lineTo(cmd.x,cmd.y);
-            else if (mType == "MOVE_TO")
+            else if (cmd.mType== "MOVE_TO")
                 robot ->moveTo(cmd.x,cmd.y);
-            robot->printLog(oldX, oldY, mType);
+            robot->printLog(oldX, oldY, cmd.mType);
             Board brd(robot->crossedPos,dimension);
             brd.show();
             
