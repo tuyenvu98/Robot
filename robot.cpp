@@ -18,7 +18,7 @@ void Robot::moveTo(int a, int b)
 {
     crossedPos.clear();
     crossedPos.push_back({x,y});
-    crossedPos.push_back({x,y});
+    crossedPos.push_back({a,b});
     x = a;
     y= b;
 
