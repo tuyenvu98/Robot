@@ -1,5 +1,6 @@
 #include <vector>
 #include <string>
+#include "command.h"
 using namespace std;
 class Robot
 {
@@ -13,13 +14,11 @@ class Robot
             return y;
         }
         
-        void moveTo(int , int );
-
-        void lineTo(int , int );
-        
         void printLog(int, int, string);
         
         std::vector<std::vector<int>> crossedPos;
+        
+        void makeMove (Command);
     private :
         int x = 0;
         int y = 0;

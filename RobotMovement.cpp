@@ -1,6 +1,5 @@
 #include <fstream>
 #include "robot.h"
-#include "command.h"
 #include "board.h"
 
 using namespace std;
@@ -33,10 +32,7 @@ int main() {
                 cout<< "Skipped." << endl;
                 continue;
             }
-            if (cmd.mType == "LINE_TO")
-                robot->lineTo(cmd.x,cmd.y);
-            else if (cmd.mType== "MOVE_TO")
-                robot ->moveTo(cmd.x,cmd.y);
+            robot->makeMove(cmd);
             robot->printLog(oldX, oldY, cmd.mType);
             Board brd(robot->crossedPos,dimension);
             brd.show();

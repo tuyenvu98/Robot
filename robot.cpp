@@ -14,23 +14,23 @@ bool checkCrossed(int x, int y, float minX, float minY, int diffX, int diffY)
         return false;
 }
 // Move to return a map of crossed positions (just old and new position)
-void Robot::moveTo(int a, int b)
+std::vector<std::vector<int>> moveTo(int oldX,int oldY,int x, int y)
 {
+    std::vector<std::vector<int>> crossedPos;
     crossedPos.clear();
     crossedPos.push_back({x,y});
-    crossedPos.push_back({a,b});
-    x = a;
-    y= b;
+    crossedPos.push_back({oldX,oldY});
+    return crossedPos;
 
 }
 // Line move return a map of crossed positions
-void Robot::lineTo(int a, int b)
+std::vector<std::vector<int>> lineTo(int oldX,int oldY,int x, int y)
 {
-    crossedPos.clear();
-    int minX = min(a, x);
-    int minY = min(b, y);
-    int maxX = max(a, x);
-    int maxY = max(b, y);
+    std::vector<std::vector<int>> crossedPos;
+    int minX = min(oldX, x);
+    int minY = min(oldY, y);
+    int maxX = max(oldX, x);
+    int maxY = max(oldY, y);
     int diffX = maxX - minX;
     int diffY = maxY -minY;
     for (int i = minX; i<= maxX; i++)
@@ -41,12 +41,20 @@ void Robot::lineTo(int a, int b)
                     crossedPos.push_back({i,j});
                 }
             }
-             
-    x = a;
-    y = b;
+    return crossedPos;
             
 }
 
+void Robot::makeMove(Command cmd)
+{
+    if (cmd.mType == "LINE_TO")
+        crossedPos = lineTo(x,y,cmd.x,cmd.y);
+    else if (cmd.mType== "MOVE_TO")
+        crossedPos = moveTo(x,y,cmd.x,cmd.y);
+    
+    x = cmd.x;
+    y = cmd.y;
+}
 void Robot::printLog(int oldX, int oldY, string mType)
 {
     cout<< "Robot " <<mType<< " from :" << oldX << "," << oldY << " to " << x << "," << y <<endl;
